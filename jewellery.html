@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Royal Jewellery</title>
+
+<!-- SUPABASE CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#240046,#5a189a,#9d4edd);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+/* LOGIN */
+
+.container{
+width:100%;
+max-width:360px;
+background:white;
+padding:25px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+text-align:center;
+}
+
+.logo{
+font-size:45px;
+margin-bottom:10px;
+}
+
+h1{
+color:#6a00f4;
+margin-bottom:5px;
+}
+
+.subtitle{
+color:gray;
+margin-bottom:25px;
+font-size:14px;
+}
+
+.input-box{
+margin-bottom:18px;
+}
+
+.input-box input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#f2f2f2;
+font-size:15px;
+outline:none;
+}
+
+.login-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#ff00cc,#6a00ff);
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.login-btn:hover{
+transform:scale(1.04);
+}
+
+.message{
+margin-top:15px;
+font-weight:bold;
+}
+
+/* JEWELLERY PAGE */
+
+#jewelleryPage{
+display:none;
+width:100%;
+padding:15px;
+overflow:auto;
+height:100vh;
+}
+
+.header{
+text-align:center;
+color:white;
+margin-bottom:20px;
+}
+
+.products{
+display:grid;
+grid-template-columns:1fr;
+gap:20px;
+max-width:400px;
+margin:auto;
+}
+
+.card{
+background:white;
+border-radius:22px;
+overflow:hidden;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card-content{
+padding:15px;
+}
+
+.card-content h3{
+color:#6a00f4;
+margin-bottom:10px;
+}
+
+.price{
+font-size:22px;
+font-weight:bold;
+color:#ff0080;
+margin-bottom:10px;
+}
+
+.details{
+font-size:14px;
+line-height:1.6;
+color:#555;
+margin-bottom:15px;
+}
+
+.buy-btn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#ff6600,#ff0080);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+
+<div class="container" id="loginPage">
+
+<div class="logo">💎</div>
+
+<h1>Royal Jewellery</h1>
+
+<p class="subtitle">
+Login To Explore Premium Jewellery
+</p>
+
+<div class="input-box">
+<input type="email" id="email" placeholder="Enter Email">
+</div>
+
+<div class="input-box">
+<input type="password" id="password" placeholder="Enter Password">
+</div>
+
+<button class="login-btn" onclick="login()">
+LOGIN
+</button>
+
+<div class="message" id="message"></div>
+
+</div>
+
+<!-- JEWELLERY PRODUCTS PAGE -->
+
+<div id="jewelleryPage">
+
+<div class="header">
+<h1>💍 Premium Jewellery</h1>
+<p>Luxury Collection</p>
+</div>
+
+<div class="products">
+
+<!-- PRODUCT 1 -->
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=800&auto=format&fit=crop">
+
+<div class="card-content">
+
+<h3>Gold Necklace</h3>
+
+<div class="price">₹49,999</div>
+
+<div class="details">
+Type: Necklace <br>
+Gold: 22K Pure Gold <br>
+Weight: 25g <br>
+Premium Wedding Collection
+</div>
+
+<button class="buy-btn">
+Purchase Now
+</button>
+
+</div>
+</div>
+
+<!-- PRODUCT 2 -->
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1603974372039-adc49044b6bd?q=80&w=800&auto=format&fit=crop">
+
+<div class="card-content">
+
+<h3>Diamond Ring</h3>
+
+<div class="price">₹29,999</div>
+
+<div class="details">
+Type: Ring <br>
+Diamond Certified <br>
+Luxury Engagement Ring
+</div>
+
+<button class="buy-btn">
+Purchase Now
+</button>
+
+</div>
+</div>
+
+<!-- PRODUCT 3 -->
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?q=80&w=800&auto=format&fit=crop">
+
+<div class="card-content">
+
+<h3>Silver Bracelet</h3>
+
+<div class="price">₹9,999</div>
+
+<div class="details">
+Type: Bracelet <br>
+Pure Silver Design <br>
+Stylish Modern Collection
+</div>
+
+<button class="buy-btn">
+Purchase Now
+</button>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* =========================
+   SUPABASE CONFIG
+========================= */
+
+/* PASTE YOUR DETAILS */
+
+const SUPABASE_URL = "https://jopcbkfxgbnstflualez.supabase.co";
+
+const SUPABASE_ANON_KEY = "sb_publishable_7CW_R5hqXurJ5bZdeifHzA_e4nlhXDn";
+
+/* ========================= */
+
+const client = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+/* LOGIN FUNCTION */
+
+async function login(){
+
+const email = document.getElementById("email").value;
+
+const password = document.getElementById("password").value;
+
+const message = document.getElementById("message");
+
+/* CHECK USER FROM DATABASE */
+
+const { data, error } = await client
+.from("users")
+.select("*")
+.eq("email", email)
+.eq("password", password);
+
+if(data.length > 0){
+
+message.style.color = "green";
+
+message.innerHTML = "✅ Login Successful";
+
+setTimeout(()=>{
+
+document.getElementById("loginPage").style.display = "none";
+
+document.getElementById("jewelleryPage").style.display = "block";
+
+},1000);
+
+}else{
+
+message.style.color = "red";
+
+message.innerHTML = "❌ Invalid Email Or Password";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
